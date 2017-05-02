@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Contact List</title>
+    <link rel='stylesheet' type = 'text/css' href='stylesheets/tablestyle.css'/>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+    <script type = "text/javascript">
+        var map;
+        var i = 0;
+
+        $(function(){
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -34.397, lng: 150.644},
+                zoom: 8
+            });
+        });
+
+        $(function(){
+ 
+            $('#mytable tr').each(function(){
+                var lat = $(this).find(".latcol").html();
+                var lon = $(this).find(".loncol").html();
+
+                var markerPos = new google.maps.LatLng(lat, lon);
+
+                var marker = new google.maps.Marker({
+                    position: markerPos,
+                    map: map,
+                });
+
+                map.setCenter(markerPos); 
+
+                console.log("Lat");
+                console.log(lat);
+                console.log("Lon");
+                console.log(lon);
+            });
+
+        });
+
+        $(function(){
+
+            $(".delete-click").click(function(e) {
+
+                $('#deleteform').submit();
+
+            });
+
+        });
+
+         $(function(){
+
+            $(".edit-click").click(function(e) {
+
+                $('#editform').submit();
+
+            });
+
+        });
+
+        $(function(){
+
+            $(".clickable-row").click(function(e) {
+
+                var lat = $(this).find(".latcol").html();
+
+                var lon = $(this).find(".loncol").html();
+
+                var markerPos = new google.maps.LatLng(lat, lon);
+                map.setCenter(markerPos); 
+
+            });
+
+            e.preventDefault();
+        });
+
+
+    </script>
+
+</head>
+
+<body>
+
+<div id = "wrap">
+    <table id = "mytable">
+         <thead>
+                <caption>Contact List</caption>
+                <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Contact Phone</th>
+                        <th>Contact Mail </th>
+                        <th>Contact Email </th>
+                        <th>Contact Any </th>
+                        <th>Delete </th>
+                        <th>Edit</th>
+                </tr>
+        </thead>
+
+        <tbody>
+
+           <% for ( i in userlist ) { 
+                var user = userlist[i]; %>
+            <tr class='clickable-row'>
+
+                <td><%= user.Group %> <%= user.FirstName %> <%= user.LastName %> </td>
+                <td><%= user.Street%> <%= user.City %> <%= user.State %> 
+                    <%= user.Zip %></td>
+                <td><%= user.Phone %></td>
+                <td><%= user.Email %></td>
+                <td><%= user.Phone1 %></td>
+                <td><%= user.Mail1 %></td>
+                <td><%= user.Email1 %></td>
+                <td><%= user.Any1 %></td>
+
+                <td class='delete-click'>
+                    <form id = "deleteform" method = "post" action = "/delete">
+                        <input type = "hidden" name="stuff" value = "<%= user._id %>" />
+                        <input id = "edit1" value = "Delete" type="submit" style ="float:right"/>
+                    </form>
+                </td>
+
+                 <td class = 'edit-click'>
+                    <form id = "editform" method = "post" action = "/edit">
+                        <input type = "hidden" name="formid" value = "<%= user._id %>" />
+                        <input id = "edit2" value = "Edit" type="submit" style ="float:right"/>
+                    </form>
+                </td>
+
+                <td style="visibility:collapse;" class='latcol'><%= user.Lat %></td>
+                <td style="visibility:collapse;" class='loncol'><%= user.Lon %></td>
+                
+            </tr>
+
+            <% } %>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div> <form action="index"> <input type ="submit"
+    value= "Add Another Contact"> </form> </div>
+
+<div>    
+    <form method = "get" action = "logout">
+        <input value = "Logout" type="submit"/>
+    </form> 
+</div>
+
+<div id="map"></div>
+
+</body>
+
+</html>

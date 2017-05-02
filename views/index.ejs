@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+ 	<title>Project 1 Nicole Millian</title>
+ 	<link rel='stylesheet' type = 'text/css' href='/stylesheets/style.css'/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?sensor=false">
+    </script>
+
+        <script type = "text/javascript">
+
+    	 $(document).ready( function() {
+
+            $('#adduser').submit(function(event) {
+            	
+                var address = $('[name=street]').val() + ' ' + $('[name=city]').val() + ' ' + 
+                $('[name=state]').val();
+
+                console.log(address);
+
+                var geocoder = new google.maps.Geocoder();
+
+                geocoder.geocode( { 'address': address}, function(results, status) {
+
+					if (status == google.maps.GeocoderStatus.OK) {
+    					var latitude = results[0].geometry.location.lat();
+						var longitude = results[0].geometry.location.lng();
+
+
+    					var myin = document.createElement("input");
+   		 				myin.type ='hidden';
+    					myin.name ='lat';
+    					myin.value = latitude;
+    					document.getElementById('adduser').appendChild(myin);
+
+    					var myinn = document.createElement("input");
+   		 				myinn.type ='hidden';
+    					myinn.name ='lon';
+    					myinn.value = longitude;
+    					document.getElementById('adduser').appendChild(myinn);
+    					document.getElementById('adduser').submit(); 
+
+    				} 
+
+    				else{
+    					alert('Your address was invalid, not being added to database. Please enter a valid address');
+    					return false;
+    				}
+				}); 
+
+				event.preventDefault();
+               
+            });
+  
+        });
+
+    </script>
+</head>
+
+<body>
+	<h1> Contact Form </h1>
+
+	<form class = 'forminfo' id="adduser" action="/adduser" method="post">
+
+	<input type="radio" name="group" id="mr" value="Mr" />Mr
+	<input type="radio" name="group" id="mrs" value="Mrs" />Mrs
+	<input type="radio" name="group" id="ms" value="Ms" />Ms
+	<input type="radio" name="group" id="doc" value="Doc" />Doc
+	
+	<br>
+
+	<p>
+		First Name:
+		<input type="text" name="firstname" size="20" maxlength="64" autofocus required>
+       
+		Last Name:
+		<input type="text" name="lastname" size="20" maxlength="64" required>
+	</p>
+	
+	<p>
+		Street:
+		<input type="text" name = "street" size="20" maxlength="64">
+       
+		City:
+		<input type="text" name="city" size="20" maxlength="64">
+	</p>
+
+	<p>
+		State:
+		<input type="text" name="state" size="20" maxlength="64">
+
+		Zip:
+		<input type="text" name="zip" size="20" maxlength="64">
+	</p>
+
+	<p>
+		Phone:
+		<input type="tel" name="phone" size="20" maxlength="64">
+	</p>
+
+	<p>
+		Email:
+		<input type="email" name="email" required size="20" maxlength="64">
+	</p>
+
+	<p>
+		How may we contact you?
+		<input type="checkbox" name="phone1" value="Yes">Phone
+		<input type="checkbox" name="mail1" value="Yes">Mail
+  		<input type="checkbox" name="email1" value="Yes">Email
+		<input type="checkbox" name="any1" value="Yes" checked>Any
+	</p>
+
+	<p><button type="submit">Submit</button></p>
+
+  </form>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+body {
+    font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #888;
+}
+
+table {
+  border-collapse: collapse;
+  font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #888;
+
+}
+
+th{
+  padding: 0.25rem;
+  text-align: left;
+  border: 1px solid #ccc;
+  background-color: #A9E2F3;
+  color: white;
+}
+
+td {
+  padding: 0.25rem;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+tbody tr:hover {
+  background: yellow;
+  cursor: pointer;
+}
+
+#map{
+    float: center;
+    margin-top:5em;
+    width:800px;
+    height:500px;
+}
+
+div{
+    float: center;
+}
